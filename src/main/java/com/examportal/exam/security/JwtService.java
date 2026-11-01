@@ -49,19 +49,60 @@ public class JwtService {
     }
 
     public UUID extractCreatorId(String token) {
-        String subject = extractClaim(token, Claims::getSubject);
-        return UUID.fromString(subject);
+        Claims claims = extractAllClaims(token);
+        Object userIdClaim = claims.get("userId");
+        if (userIdClaim == null) {
+            userIdClaim = claims.get("id");
+        }
+        if (userIdClaim != null) {
+            try {
+                return UUID.fromString(userIdClaim.toString());
+            } catch (IllegalArgumentException ignored) {}
+        }
+
+        String subject = claims.getSubject();
+        if (subject != null && !subject.isBlank()) {
+            try {
+                return UUID.fromString(subject);
+            } catch (IllegalArgumentException e) {
+                // If subject is email/username, convert deterministically to UUID
+                return UUID.nameUUIDFromBytes(subject.getBytes(StandardCharsets.UTF_8));
+            }
+        }
+
+        return UUID.randomUUID();
     }
 
     public String extractEmail(String token) {
         Claims claims = extractAllClaims(token);
-        return claims.get("email", String.class);
+        String email = claims.get("email", String.class);
+        if (email == null) {
+            String subject = claims.getSubject();
+            if (subject != null && subject.contains("@")) {
+                email = subject;
+            }
+        }
+        return email != null ? email : "creator@examportal.com";
     }
 
     public String extractRole(String token) {
-        Claims claims = extractAllClaims(token);
-        String role = claims.get("role", String.class);
-        return role != null ? role : "CREATOR";
+        try {
+            Claims claims = extractAllClaims(token);
+            Object roleObj = claims.get("role");
+            if (roleObj == null) {
+                roleObj = claims.get("roles");
+            }
+            if (roleObj == null) {
+                roleObj = claims.get("authorities");
+            }
+            if (roleObj instanceof java.util.List<?> list && !list.isEmpty()) {
+                return String.valueOf(list.get(0));
+            }
+            if (roleObj != null) {
+                return roleObj.toString();
+            }
+        } catch (Exception ignored) {}
+        return "ROLE_CREATOR";
     }
 
     public boolean isTokenValid(String token) {

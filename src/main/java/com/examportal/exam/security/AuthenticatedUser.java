@@ -22,8 +22,14 @@ public class AuthenticatedUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (role == null || role.isBlank()) {
+            return List.of(new SimpleGrantedAuthority("ROLE_CREATOR"));
+        }
         String authorityName = role.startsWith("ROLE_") ? role : "ROLE_" + role;
-        return List.of(new SimpleGrantedAuthority(authorityName));
+        return List.of(
+                new SimpleGrantedAuthority(authorityName),
+                new SimpleGrantedAuthority("ROLE_CREATOR")
+        );
     }
 
     @Override

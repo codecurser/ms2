@@ -7,12 +7,13 @@ export const removeAuthToken = () => localStorage.removeItem('token');
 
 const handleResponse = async (res: Response) => {
   if (!res.ok) {
-    if (res.status === 401 || res.status === 403) {
+    if (res.status === 401) {
+      console.warn('Unauthorized (401), session expired');
       removeAuthToken();
       window.location.href = '/login';
     }
     const err = await res.json().catch(() => ({}));
-    throw new Error(err.message || 'API request failed');
+    throw new Error(err.message || (res.status === 403 ? 'Access forbidden (403)' : 'API request failed'));
   }
   return res.json();
 };

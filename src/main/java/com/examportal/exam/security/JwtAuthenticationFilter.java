@@ -59,9 +59,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+                log.info("JWT authentication successful for user: {} ({}) with authorities: {}", email, creatorId, userDetails.getAuthorities());
+            } else {
+                log.warn("JWT token validation failed for incoming request: {}", request.getRequestURI());
             }
         } catch (Exception e) {
-            log.error("Failed to authenticate JWT token: {}", e.getMessage());
+            log.error("Failed to authenticate JWT token: {}", e.getMessage(), e);
         }
 
         filterChain.doFilter(request, response);

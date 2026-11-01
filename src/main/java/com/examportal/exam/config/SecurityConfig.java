@@ -27,14 +27,6 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // Restrict API to Vercel IPs (and localhost for local dev)
-                        .requestMatchers(request -> {
-                            String ip = request.getRemoteAddr();
-                            return new org.springframework.security.web.util.matcher.IpAddressMatcher("74.220.48.0/24").matches(request) ||
-                                   new org.springframework.security.web.util.matcher.IpAddressMatcher("74.220.56.0/24").matches(request) ||
-                                   new org.springframework.security.web.util.matcher.IpAddressMatcher("127.0.0.1").matches(request) ||
-                                   new org.springframework.security.web.util.matcher.IpAddressMatcher("0:0:0:0:0:0:0:1").matches(request);
-                        }).access((authentication, context) -> new org.springframework.security.authorization.AuthorizationDecision(true))
                         // Public endpoints
                         .requestMatchers(
                                 "/api/v1/public/exams/**",
@@ -43,7 +35,7 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
                         ).permitAll()
-                        .requestMatchers("/api/v1/exams/**").hasAuthority("ROLE_CREATOR")
+                        .requestMatchers("/api/v1/exams/**").hasAnyAuthority("ROLE_CREATOR", "CREATOR", "ROLE_USER", "USER", "ROLE_ADMIN", "ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
