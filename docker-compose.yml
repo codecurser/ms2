@@ -1,0 +1,39 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: exam-postgres
+    environment:
+      POSTGRES_DB: exam_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - exam_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d exam_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  exam-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: exam-service
+    ports:
+      - "8082:8082"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: exam_db
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgrespassword
+      JWT_SECRET: c3VwZXJzZWNyZXRqd3RzZWNyZXRrZXlmb3JleGFtcG9ydGFsYXBwbGljYXRpb25zZWN1cml0eXRva2VuZ2VuZXJhdGlvbg==
+      FRONTEND_URL: http://localhost:3000
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  exam_db_data:

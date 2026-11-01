@@ -1,0 +1,37 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: exam-service
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:exam_db}}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:respectfull@2026}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+jwt:
+  secret: ${JWT_SECRET:c3VwZXJzZWNyZXRqd3RzZWNyZXRrZXlmb3JleGFtcG9ydGFsYXBwbGljYXRpb25zZWN1cml0eXRva2VuZ2VuZXJhdGlvbg==}
+
+frontend:
+  url: ${FRONTEND_URL:http://localhost:3000}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method

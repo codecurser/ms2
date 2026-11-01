@@ -1,0 +1,20 @@
+server:
+  port: 0
+
+spring:
+  application:
+    name: exam-service-test
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+  flyway:
+    enabled: true
+
+jwt:
+  secret: c3VwZXJzZWNyZXRqd3RzZWNyZXRrZXlmb3JleGFtcG9ydGFsYXBwbGljYXRpb25zZWN1cml0eXRva2VuZ2VuZXJhdGlvbg==
+
+frontend:
+  url: http://localhost:3000
