@@ -27,3 +27,4 @@ public class HomeController {
         return ResponseEntity.ok(Map.of("status", "UP"));
     }
 }
+

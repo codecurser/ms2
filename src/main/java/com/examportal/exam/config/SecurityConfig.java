@@ -30,6 +30,7 @@ public class SecurityConfig {
                         // Public endpoints
                         .requestMatchers(
                                 "/",
+                                "/error",
                                 "/health",
                                 "/api/v1/public/exams/**",
                                 "/v3/api-docs/**",
