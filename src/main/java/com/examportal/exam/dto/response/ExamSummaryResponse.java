@@ -20,4 +20,5 @@ public class ExamSummaryResponse {
     private ExamStatus status;
     private Integer durationMinutes;
     private Instant createdAt;
+    private String shareCode;
 }

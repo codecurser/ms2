@@ -10,9 +10,11 @@ export default function Dashboard() {
   const fetchExams = async () => {
     try {
       const data = await api.getExams();
-      setExams(data.content || []);
+      console.log('Fetched exams response:', data);
+      const list = data.exams || data.content || (Array.isArray(data) ? data : []);
+      setExams(list);
     } catch (err) {
-      console.error(err);
+      console.error('Failed to fetch exams:', err);
     } finally {
       setLoading(false);
     }

@@ -21,6 +21,11 @@ public class PageResponse<T> {
     private int totalPages;
     private boolean isLast;
 
+    @com.fasterxml.jackson.annotation.JsonProperty("content")
+    public List<T> getContent() {
+        return exams;
+    }
+
     public static <T> PageResponse<T> from(Page<T> page) {
         return PageResponse.<T>builder()
                 .exams(page.getContent())

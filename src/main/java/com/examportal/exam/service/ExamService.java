@@ -229,6 +229,7 @@ public class ExamService {
                 .status(exam.getStatus())
                 .durationMinutes(exam.getDurationMinutes())
                 .createdAt(exam.getCreatedAt())
+                .shareCode(exam.getShareCode())
                 .build();
     }
 }
