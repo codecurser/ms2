@@ -24,7 +24,7 @@ spring:
     baseline-on-migrate: true
 
 jwt:
-  secret: ${JWT_SECRET:c3VwZXJzZWNyZXRqd3RzZWNyZXRrZXlmb3JleGFtcG9ydGFsYXBwbGljYXRpb25zZWN1cml0eXRva2VuZ2VuZXJhdGlvbg==}
+  secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
 
 frontend:
   url: ${FRONTEND_URL:http://localhost:3000}
