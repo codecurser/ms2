@@ -1,5 +1,5 @@
 const EXAM_API_BASE = import.meta.env.VITE_EXAM_API_BASE || 'https://ms2-w51n.onrender.com/api/v1';
-const AUTH_API_BASE = import.meta.env.VITE_AUTH_API_BASE || 'https://microservice-based-examination.onrender.com/api/v1/auth';
+const AUTH_API_BASE = import.meta.env.VITE_AUTH_API_BASE || 'https://microservice-based-examination-1.onrender.com/api/v1/auth';
 
 export const getAuthToken = () => localStorage.getItem('token');
 export const setAuthToken = (token: string) => localStorage.setItem('token', token);
