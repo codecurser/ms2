@@ -29,6 +29,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints
                         .requestMatchers(
+                                "/",
+                                "/health",
                                 "/api/v1/public/exams/**",
                                 "/v3/api-docs/**",
                                 "/v3/api-docs.yaml",
