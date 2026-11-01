@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../services/api';
-import { Plus, Trash2, Globe, Clock, Copy, ExternalLink, Calendar } from 'lucide-react';
+import { Plus, Trash2, Globe, Clock, Copy, Calendar } from 'lucide-react';
 
 export default function Dashboard() {
   const [exams, setExams] = useState<any[]>([]);
